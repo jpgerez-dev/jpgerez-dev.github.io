@@ -264,11 +264,7 @@
     };
 
     function App() {
-      // LocalStorage Key specific for Juan Pablo Gerez
-      const [portfolioData, setPortfolioData] = useState(() => {
-        const saved = localStorage.getItem('jpgerez_portfolio_v6');
-        return saved ? JSON.parse(saved) : JUAN_PABLO_DATA;
-      });
+      const portfolioData = JUAN_PABLO_DATA;
 
       const [darkMode, setDarkMode] = useState(true);
       const [scrollProgress, setScrollProgress] = useState(0);
@@ -291,14 +287,7 @@
       const [formStatus, setFormStatus] = useState({ submitting: false, success: false, error: '' });
       const [toastMsg, setToastMsg] = useState('');
 
-      // Editor Modal State
-      const [isEditorOpen, setIsEditorOpen] = useState(false);
-      const [editorTab, setEditorTab] = useState('general');
 
-      // Save to localStorage
-      useEffect(() => {
-        localStorage.setItem('jpgerez_portfolio_v6', JSON.stringify(portfolioData));
-      }, [portfolioData]);
 
       // Dark Mode Toggle
       useEffect(() => {
@@ -451,12 +440,6 @@ IDIOMAS:
         showToast("¡Currículum descargado! 📄");
       };
 
-      // Reset to Original CV
-      const handleResetData = () => {
-        setPortfolioData(JUAN_PABLO_DATA);
-        localStorage.setItem('jpgerez_portfolio_v6', JSON.stringify(JUAN_PABLO_DATA));
-        showToast("Restablecido a los datos de Juan Pablo Gerez.");
-      };
 
       return (
         <div className="min-h-screen relative overflow-x-hidden">
@@ -536,15 +519,6 @@ IDIOMAS:
                 >
                   <i className="fas fa-file-arrow-down"></i>
                   <span>Descargar CV</span>
-                </button>
-
-                {/* Live Editor Trigger Button */}
-                <button
-                  onClick={() => setIsEditorOpen(true)}
-                  className="p-2.5 text-slate-600 dark:text-slate-300 hover:text-sky-500 rounded-full bg-slate-200/60 dark:bg-slate-800/60 text-sm transition"
-                  title="Personalizar Datos"
-                >
-                  <i className="fas fa-gear"></i>
                 </button>
               </div>
 
@@ -1312,166 +1286,6 @@ IDIOMAS:
                     </a>
                   </div>
 
-                </div>
-
-              </div>
-            </div>
-          )}
-
-          {/* LIVE CUSTOMIZER / EDITOR DRAWER */}
-          {isEditorOpen && (
-            <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
-              <div className="w-full max-w-xl bg-slate-50 dark:bg-slate-900 h-full shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col">
-                
-                {/* Header */}
-                <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center text-sm">
-                      <i className="fas fa-sliders"></i>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-sm text-slate-900 dark:text-white">Editor de Portafolio</h3>
-                      <p className="text-[11px] text-slate-500">Personaliza tus textos en tiempo real</p>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setIsEditorOpen(false)}
-                    className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-500 hover:text-white transition flex items-center justify-center text-xs"
-                  >
-                    <i className="fas fa-times"></i>
-                  </button>
-                </div>
-
-                {/* Tabs */}
-                <div className="flex border-b border-slate-200 dark:border-slate-800 px-5 gap-2 bg-slate-100/50 dark:bg-slate-950/40">
-                  {['general', 'skills'].map(tab => (
-                    <button
-                      key={tab}
-                      onClick={() => setEditorTab(tab)}
-                      className={`py-3 px-3 font-semibold text-xs border-b-2 transition capitalize ${
-                        editorTab === tab
-                          ? 'border-sky-600 text-sky-600 dark:text-sky-400'
-                          : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-                      }`}
-                    >
-                      {tab}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Editor Inputs */}
-                <div className="p-5 flex-1 overflow-y-auto space-y-4 text-xs">
-                  {editorTab === 'general' && (
-                    <>
-                      <div>
-                        <label className="block font-bold text-slate-400 uppercase mb-1">Nombre</label>
-                        <input
-                          type="text"
-                          value={portfolioData.personal.name}
-                          onChange={(e) => setPortfolioData({
-                            ...portfolioData,
-                            personal: { ...portfolioData.personal, name: e.target.value }
-                          })}
-                          className="w-full p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 border border-slate-300 dark:border-slate-700"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block font-bold text-slate-400 uppercase mb-1">URL / Ruta de Foto de Perfil</label>
-                        <input
-                          type="text"
-                          value={portfolioData.personal.avatar}
-                          onChange={(e) => setPortfolioData({
-                            ...portfolioData,
-                            personal: { ...portfolioData.personal, avatar: e.target.value }
-                          })}
-                          className="w-full p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 border border-slate-300 dark:border-slate-700"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block font-bold text-slate-400 uppercase mb-1">Titular (Headline)</label>
-                        <input
-                          type="text"
-                          value={portfolioData.personal.headline}
-                          onChange={(e) => setPortfolioData({
-                            ...portfolioData,
-                            personal: { ...portfolioData.personal, headline: e.target.value }
-                          })}
-                          className="w-full p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 border border-slate-300 dark:border-slate-700"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block font-bold text-slate-400 uppercase mb-1">Biografía</label>
-                        <textarea
-                          rows="4"
-                          value={portfolioData.personal.bio}
-                          onChange={(e) => setPortfolioData({
-                            ...portfolioData,
-                            personal: { ...portfolioData.personal, bio: e.target.value }
-                          })}
-                          className="w-full p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 resize-none"
-                        ></textarea>
-                      </div>
-
-                      <div>
-                        <label className="block font-bold text-slate-400 uppercase mb-1">Email</label>
-                        <input
-                          type="text"
-                          value={portfolioData.personal.email}
-                          onChange={(e) => setPortfolioData({
-                            ...portfolioData,
-                            personal: { ...portfolioData.personal, email: e.target.value }
-                          })}
-                          className="w-full p-2.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 border border-slate-300 dark:border-slate-700"
-                        />
-                      </div>
-                    </>
-                  )}
-
-                  {editorTab === 'skills' && (
-                    <div className="space-y-3">
-                      <p className="text-slate-400">Nivel de cada tecnología (1 = En formación, 2 = Con práctica, 3 = Uso frecuente):</p>
-                      {portfolioData.skills.map((sk, idx) => (
-                        <div key={sk.id} className="p-3 rounded-xl bg-slate-200/50 dark:bg-slate-800 flex items-center justify-between gap-3">
-                          <span className="font-bold flex-1 truncate">{sk.name}</span>
-                          <input
-                            type="number"
-                            min="1" max="3"
-                            value={sk.level}
-                            onChange={(e) => {
-                              const updated = [...portfolioData.skills];
-                              updated[idx].level = Math.min(3, Math.max(1, parseInt(e.target.value) || 1));
-                              setPortfolioData({ ...portfolioData, skills: updated });
-                            }}
-                            className="w-16 p-1.5 rounded bg-slate-100 dark:bg-slate-900 text-xs font-bold"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Footer Actions */}
-                <div className="p-5 border-t border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 flex items-center justify-between">
-                  <button
-                    onClick={() => {
-                      setPortfolioData(JUAN_PABLO_DATA);
-                      localStorage.setItem('jpgerez_portfolio_v6', JSON.stringify(JUAN_PABLO_DATA));
-                      showToast("Restablecido a los datos de Juan Pablo Gerez.");
-                    }}
-                    className="text-xs font-bold text-red-500 hover:underline"
-                  >
-                    Restablecer Datos Originales
-                  </button>
-                  <button
-                    onClick={() => setIsEditorOpen(false)}
-                    className="px-5 py-2 bg-sky-600 text-white rounded-xl text-xs font-bold shadow hover:bg-sky-700 transition"
-                  >
-                    Guardar
-                  </button>
                 </div>
 
               </div>
