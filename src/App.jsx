@@ -11,7 +11,7 @@ const PROJECTS = [
   {
     n: '01',
     title: 'JFA Distribuciones',
-    kind: 'Backend · TFI Diseño de Sistemas · UTN FRT',
+    kind: 'Backend · TFI Diseño de Sistemas · UTN FRT · 2023',
     text: 'API REST del módulo de usuarios (registro, inicio de sesión, listado y baja) para el sistema web de una distribuidora de materiales eléctricos. Trabajo en equipo de cuatro personas.',
     points: [
       'Autenticación con tokens JWT y contraseñas con hash Argon2.',
@@ -24,7 +24,7 @@ const PROJECTS = [
   {
     n: '02',
     title: 'MatePay',
-    kind: 'Hackathon · Solana × Superteam',
+    kind: 'Hackathon · Solana × Superteam · Oct 2026',
     text: 'Prototipo de pagos y cobros en USDC mediante QR de Solana Pay y alias, sobre Devnet. Ayudé a desarrollar el frontend en un equipo de tres personas.',
     points: [
       'Colaboración continua en el repositorio hasta la presentación final.',
@@ -35,7 +35,7 @@ const PROJECTS = [
   {
     n: '03',
     title: 'Modelo relacional en MySQL',
-    kind: 'Base de datos · TFI Gestión de Datos · UTN FRT',
+    kind: 'Base de datos · TFI Gestión de Datos · UTN FRT · 2023',
     text: 'Diseño e implementación de una base de datos relacional de 44 tablas, con scripts de creación y carga de datos y consultas SQL con múltiples joins.',
     points: [
       'Claves foráneas y restricciones de integridad.',
@@ -52,16 +52,54 @@ const MINI = [
 ]
 
 const SKILLS = [
-  { label: 'Uso frecuente', items: ['Java', 'JavaScript', 'HTML5', 'CSS3', 'MySQL', 'Git y GitHub'] },
-  { label: 'Con práctica', items: ['Spring Boot', 'React', 'MariaDB', 'Maven', 'C++', 'Redes'] },
-  { label: 'En formación', items: ['C#', 'TypeScript', 'Azure'] },
+  { label: 'Lenguajes', items: ['Java', 'JavaScript', 'C#', 'C++'] },
+  { label: 'Desarrollo web', items: ['React', 'HTML5', 'CSS3', 'Spring Boot'] },
+  { label: 'Bases de datos', items: ['MySQL', 'MariaDB'] },
+  { label: 'Herramientas', items: ['Git', 'GitHub', 'Maven'] },
 ]
 
-const STATS = [
-  ['4.º', 'año de Ingeniería'],
-  ['5', 'proyectos en GitHub'],
-  ['1', 'hackathon'],
+const STATS = [['4.º', 'año de Ingeniería'], ['3', 'proyectos destacados'], ['1', 'hackathon']]
+
+const FACTS = [
+  ['Carrera', 'Ing. en Sistemas de Información · UTN FRT'],
+  ['Cursando', '4.º año'],
+  ['Ubicación', 'Las Talitas, Tucumán'],
+  ['Busco', 'Trainee, junior o pasantía'],
 ]
+
+const ROLE = 'Estudiante de Ingeniería en Sistemas · Java, Spring Boot, MySQL y React'
+
+// Frases que se escriben y borran debajo del nombre.
+const ROLES = [
+  'Estudiante de Ingeniería en Sistemas',
+  'Backend con Java y Spring Boot',
+  'Bases de datos con MySQL',
+  'Desarrollo web con React',
+]
+
+function Typewriter({ phrases, still }) {
+  const [i, setI] = useState(0)
+  const [text, setText] = useState('')
+  const [deleting, setDeleting] = useState(false)
+  const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  useEffect(() => {
+    if (reduced) return
+    const full = phrases[i]
+    let delay = deleting ? 35 : 70
+    if (!deleting && text === full) delay = 1800
+    else if (deleting && text === '') delay = 400
+    const t = setTimeout(() => {
+      if (!deleting && text === full) setDeleting(true)
+      else if (deleting && text === '') { setDeleting(false); setI((i + 1) % phrases.length) }
+      else setText(full.slice(0, text.length + (deleting ? -1 : 1)))
+    }, delay)
+    return () => clearTimeout(t)
+  }, [text, deleting, i, phrases, reduced])
+
+  if (reduced) return <span aria-hidden="true">{still}</span>
+  return <span aria-hidden="true">{text}<span className="caret" /></span>
+}
 
 function Reveal({ children, className = '' }) {
   const ref = useRef(null)
@@ -97,10 +135,17 @@ export default function App() {
 
   return (
     <>
+      <div className="aurora" aria-hidden="true"><span /><span /><span /></div>
       <div className="progress" ref={bar} />
       <header className="nav">
         <div className="wrap nav-in">
-          <a className="brand" href="#inicio">JPG<span>.</span></a>
+          <a className="brand" href="#inicio">
+            <span className="logo">JPG</span>
+            <span className="brand-text">
+              <strong>Juan Pablo Gerez</strong>
+              <small>Portfolio · Desarrollador full-stack</small>
+            </span>
+          </a>
           <nav>
             <a href="#sobre-mi">Sobre mí</a>
             <a href="#proyectos">Proyectos</a>
@@ -112,21 +157,25 @@ export default function App() {
 
       <main>
         <section id="inicio" className="hero wrap">
-          <div className="top">
-            {SHOW_PHOTO && <img className="avatar" src="./juan-pablo.jpg" alt="Juan Pablo Gerez" width="88" height="88" />}
+          <div className="hero-text">
             <span className="pill"><i /> Disponible para trabajar</span>
+            <h1>Juan Pablo <em>Gerez</em></h1>
+            <p className="role"><span className="sr-only">{ROLE}</span><Typewriter phrases={ROLES} still={ROLE} /></p>
+            <p className="lead">
+              Estudiante de 4.º año de Ingeniería en Sistemas de Información en la UTN FRT, con práctica en desarrollo
+              backend (Java, Spring Boot), bases de datos relacionales y desarrollo web. Busco ganar experiencia profesional en el área de sistemas.
+            </p>
+            <div className="cta">
+              <a className="btn primary" href="./CV_Juan_Pablo_Gerez_Harvard.pdf" download>Descargar CV</a>
+              <a className="btn" href={GITHUB} target="_blank" rel="noreferrer">GitHub</a>
+              <a className="btn" href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
           </div>
-          <h1>Juan Pablo <em>Gerez</em></h1>
-          <p className="role">Desarrollador full-stack en formación · Java, Spring Boot, MySQL y React</p>
-          <p className="lead">
-            Estudiante de Ingeniería en Sistemas de Información en la UTN FRT. Construyo APIs, modelo bases de datos
-            y armo interfaces web. Busco mi primera experiencia profesional en el área de sistemas, sumarme a un equipo y seguir aprendiendo.
-          </p>
-          <div className="cta">
-            <a className="btn primary" href="./CV_Juan_Pablo_Gerez.pdf" download>Descargar CV</a>
-            <a className="btn" href={GITHUB} target="_blank" rel="noreferrer">GitHub</a>
-            <a className="btn" href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn</a>
-          </div>
+          {SHOW_PHOTO && (
+            <div className="photo">
+              <img className="avatar" src="./juan-pablo.jpg" alt="Juan Pablo Gerez" width="320" height="320" />
+            </div>
+          )}
           <dl className="stats">
             {STATS.map(([a, b]) => (<div key={b}><dt>{a}</dt><dd>{b}</dd></div>))}
           </dl>
@@ -136,16 +185,20 @@ export default function App() {
           <Reveal>
             <p className="eyebrow">Sobre mí</p>
             <h2>Bases sólidas y ganas de aprender haciendo.</h2>
+            <div className="about-grid">
             <div className="about">
               <p>
-                Curso 4.º año de Ingeniería en Sistemas de Información. Tengo bases de arquitectura de computadoras,
-                sistemas operativos y redes, y las llevé a la práctica en proyectos académicos y propios de backend,
-                bases de datos y desarrollo web.
+                Curso 4.º año de Ingeniería en Sistemas de Información. Tengo práctica en proyectos académicos y propios
+                de backend, bases de datos y desarrollo web.
               </p>
               <p>
                 Me importa dejar el trabajo documentado y reproducible: READMEs claros, scripts que corren de punta a punta
                 y credenciales fuera del código. Trabajo bien en equipo, soy proactivo y responsable.
               </p>
+            </div>
+            <dl className="facts">
+              {FACTS.map(([k, v]) => (<div key={k}><dt>{k}</dt><dd>{v}</dd></div>))}
+            </dl>
             </div>
           </Reveal>
         </section>
@@ -207,7 +260,7 @@ export default function App() {
                 <a href={`mailto:${MAIL}`}>{MAIL}</a>
                 <a href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn</a>
                 <a href={GITHUB} target="_blank" rel="noreferrer">GitHub</a>
-                <a href="./CV_Juan_Pablo_Gerez.pdf" download>Descargar CV (PDF)</a>
+                <a href="./CV_Juan_Pablo_Gerez_Harvard.pdf" download>Descargar CV (PDF)</a>
               </div>
             </div>
           </Reveal>
