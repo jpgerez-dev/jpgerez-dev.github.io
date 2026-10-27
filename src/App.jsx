@@ -113,7 +113,7 @@ export default function App() {
       <main>
         <section id="inicio" className="hero wrap">
           <div className="top">
-            {SHOW_PHOTO && <img className="avatar" src="./juan-pablo.jpg" alt="Juan Pablo Gerez" width="72" height="72" />}
+            {SHOW_PHOTO && <img className="avatar" src="./juan-pablo.jpg" alt="Juan Pablo Gerez" width="88" height="88" />}
             <span className="pill"><i /> Disponible para trabajar</span>
           </div>
           <h1>Juan Pablo <em>Gerez</em></h1>

@@ -30,7 +30,7 @@ nav a:hover{color:var(--text)}
 
 .hero{padding:72px 0 56px}
 .top{display:flex;align-items:center;gap:16px;margin-bottom:28px}
-.avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:2px solid var(--line)}
+.avatar{width:88px;height:88px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:2px solid var(--line)}
 .pill{display:inline-flex;align-items:center;gap:8px;font:500 .8rem var(--mono);color:var(--accent2);border:1px solid var(--line);background:var(--bg2);padding:6px 12px;border-radius:99px}
 .pill i{width:7px;height:7px;border-radius:50%;background:var(--accent2)}
 h1{font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.02;letter-spacing:-.035em;font-weight:800}
