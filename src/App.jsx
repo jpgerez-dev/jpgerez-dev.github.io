@@ -143,7 +143,7 @@ export default function App() {
             <span className="logo">JPG</span>
             <span className="brand-text">
               <strong>Juan Pablo Gerez</strong>
-              <small>Portfolio · Desarrollador full-stack</small>
+              <small>Portfolio · Estudiante de Ingeniería en Sistemas</small>
             </span>
           </a>
           <nav>
