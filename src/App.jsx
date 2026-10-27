@@ -20,6 +20,8 @@ const PROJECTS = [
     ],
     tags: ['Java 21', 'Spring Boot', 'JWT', 'Argon2', 'MySQL'],
     href: GITHUB + '/DS_TFI_backend',
+    demo: 'https://ds-tfi-backend.onrender.com/',
+    note: 'Demo pública en un servidor gratuito: la primera carga puede tardar cerca de 1 minuto. No cargues datos reales.',
   },
   {
     n: '02',
@@ -31,6 +33,7 @@ const PROJECTS = [
     ],
     tags: ['Solana Pay', 'USDC', 'Devnet', 'Frontend'],
     href: GITHUB + '/matepay',
+    demo: 'https://matepay-five.vercel.app/',
   },
   {
     n: '03',
@@ -217,7 +220,11 @@ export default function App() {
                   <p>{p.text}</p>
                   <ul>{p.points.map((x) => <li key={x}>{x}</li>)}</ul>
                   <div className="tags">{p.tags.map((t) => <span key={t}>{t}</span>)}</div>
-                  <a className="link" href={p.href} target="_blank" rel="noreferrer">Ver repositorio →</a>
+                  <div className="card-actions">
+                    <a className="link" href={p.href} target="_blank" rel="noreferrer">Ver repositorio →</a>
+                    {p.demo && <a className="demo" href={p.demo} target="_blank" rel="noreferrer">Ver demo</a>}
+                  </div>
+                  {p.note && <p className="demo-note">{p.note}</p>}
                 </article>
               </Reveal>
             ))}
